@@ -48,7 +48,7 @@ app.get('/todos/:id', function(req, res) {
 })
 ```
 
-// Created POST /todos.  First had to initialize ID.
+// Create POST /todos.  First had to initialize ID.
 `var todoNextID = 1`
 
 // Refactor using Underscore.JS
@@ -56,5 +56,37 @@ app.get('/todos/:id', function(req, res) {
 
 ```javascript
 var matchedTodo = _.findWhere(todos, {id: todoID})
+```
+
+// Validated body in POST todos/ using Underscore .pick
+```javascript
+    var body = _.pick(req.body, 'description', 'completed')
+
+    // _.isBoolean & _.isString are Object functions taht allow us to validate.
+    // body-parser enables us to parse the body object.
+
+    if( !_.isBoolean(body.completed) ||
+        !_.isString(body.description) ||
+        body.description.trim().length === 0) {
+        return res.status(400).send()
+    }
+
+    body.description = body.description.trim()
+```
+
+// Create DELETE /todos/:id.
+```javascript
+app.delete('/todos/:id', function(req, res) {
+
+    var todoID = parseInt(req.params.id)
+    var matchedTodo = _.findWhere(todos, {id: todoID})
+
+    if (matchedTodo) {
+        todos = _.without(todos, matchedTodo)
+    } else {
+        res.status(404).json({"error": "No such Todo found."})
+    }
+    res.json("Deleted " + matchedTodo)
+})
 ```
 
