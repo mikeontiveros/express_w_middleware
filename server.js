@@ -10,17 +10,18 @@ var PORT = process.env.PORT || 3000
 var middleware = require('./middleware')
 
 var todos = [
-    {
-        id: 1,
-        description: 'Teach REST API.',
-        completed: false
-    },
-    {
-        id: 2,
-        description: 'Go eat a healthy lunch.',
-        completed: true
-    }
+    // {
+    //     id: 1,
+    //     description: 'Teach REST API.',
+    //     completed: false
+    // },
+    // {
+    //     id: 2,
+    //     description: 'Go eat a healthy lunch.',
+    //     completed: true
+    // }
 ]
+var todoNextID = 1
 
 // This middleware module's requireAuthentication
 // function is now for the whole app!
@@ -56,6 +57,21 @@ app.get('/todos/:id', function(req, res) {
     } else {
         res.status(404).send()
     }
+})
+
+app.post('/todos', function(req, res) {
+
+    var body = req.body
+
+    // Add ID key & value to body.
+    body.id = todoNextID
+    todoNextID++
+
+    // Push body into array.
+    todos.push(body)
+
+    console.log('description: ' + body.description)
+    res.json(body)
 })
 
 app.get('/about', middleware.logger, function(req, res) {

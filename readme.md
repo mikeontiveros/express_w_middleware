@@ -22,5 +22,32 @@ We do this this to make the middleware object defined in middleware.js available
 
 'npm install body-parser' & then we require it at the top of server.js.  Then we mount (.use) it.  When we mounted it, we did this...
 
-// Created first GET/todos and tested it in Postman
+// Created 1st GET /todos & tested it with Postman by creating Collection -> Environment -> Route.
+
+// Created 2nd GET /todos/:id & tested it with Postman & also pushed to Heroku and created Environment -> Route.
+
+```javascript
+app.get('/todos/:id', function(req, res) {
+
+    // res.send('Asking for todo with id ' + req.params.id)
+
+    // res.json( todos[req.params.id - 1] )
+
+    var todoId = parseInt(req.params.id)
+    var matchedTodo;
+    todos.forEach(function(todo) {
+        if (todoId === todo.id) {
+            matchedTodo = todo;
+        }
+    })
+    if (matchedTodo) {
+        res.json(matchedTodo)
+    } else {
+        res.status(404).send()
+    }
+})
+```
+
+// Created POST /todos.  First had to initialize ID.
+`var todoNextID = 1`
 
