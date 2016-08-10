@@ -4,6 +4,7 @@ var express = require('express')
 var app = express()
 var path = require('path')
 var bodyParser = require('body-parser')
+var _ = require('underscore')
 
 // Use PORT 3000, unless using Heroku port
 var PORT = process.env.PORT || 3000
@@ -45,13 +46,18 @@ app.get('/todos/:id', function(req, res) {
 
     // res.json( todos[req.params.id - 1] )
 
-    var todoId = parseInt(req.params.id)
-    var matchedTodo;
-    todos.forEach(function(todo) {
-        if (todoId === todo.id) {
-            matchedTodo = todo;
-        }
-    })
+    // variable to hold as integer ID from params
+    var todoID = parseInt(req.params.id)
+
+    var matchedTodo = _.findWhere(todos, {id: todoID})
+
+    // var matchedTodo;
+    // todos.forEach(function(todo) {
+    //     if (todoID === todo.id) {
+    //         matchedTodo = todo;
+    //     }
+    // })
+
     if (matchedTodo) {
         res.json(matchedTodo)
     } else {

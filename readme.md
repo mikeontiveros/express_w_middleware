@@ -51,3 +51,10 @@ app.get('/todos/:id', function(req, res) {
 // Created POST /todos.  First had to initialize ID.
 `var todoNextID = 1`
 
+// Refactor using Underscore.JS
+    // Refactor GET /todos:id
+
+```javascript
+var matchedTodo = _.findWhere(todos, {id: todoID})
+```
+
